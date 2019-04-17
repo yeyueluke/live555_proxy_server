@@ -6,7 +6,7 @@
 int main(int argc, char** argv)
 {
     // Begin by setting up our usage environment:
-    TaskScheduler* scheduler = BasicTaskScheduler::createNew();//����Hander
+    TaskScheduler* scheduler = BasicTaskScheduler::createNew();//创建Hander
 
     UsageEnvironment* env = BasicUsageEnvironment::createNew(*scheduler);
 
@@ -36,13 +36,14 @@ int main(int argc, char** argv)
     //string sStreamUrl = "rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp";
     //string sStreamUrl = "rtsp://218.204.223.237:554/live/1/67A7572844E51A64/f68g2mj7wjua3la7.sdp";
     //string sStreamUrl = "rtsp://admin:12345@192.168.1.250:554/h264/ch1/main/av_stream";
-
-    string sStreamUrl2 = "rtsp://admin:admin@192.168.1.212:554/cam/realmonitor?channel=1&subtype=0";     //��˾��rtsp://username:password@ip:port/cam/realmonitor?channel=1&subtype=0
-    //string sStreamUrl  = "rtsp://218.204.223.237:554/live/1/0547424F573B085C/gsfp90ef4k0a6iap.sdp";    //��˾��rtsp://192.168.1.96/abc.264
+    //根据实际情况修改，比如：海康的string sStreamUrl2 = "rtsp://admin:Password01!@192.168.90.241"即可
+    string sStreamUrl2 = "rtsp://admin:admin@192.168.1.212:554/cam/realmonitor?channel=1&subtype=0";     //公司大华rtsp://username:password@ip:port/cam/realmonitor?channel=1&subtype=0
+    //string sStreamUrl  = "rtsp://218.204.223.237:554/live/1/0547424F573B085C/gsfp90ef4k0a6iap.sdp";    //公司大华rtsp://192.168.1.96/abc.264
     //string sStreamUrl2 = "rtsp://192.168.1.96/abc.264";rtsp://192.168.1.216/profile?token=media_profile1&SessionTimeout=60
-    //string sStreamUrl2 = "rtsp://admin:admin@192.168.1.216/profile?token=media_profile1";//����
+    //string sStreamUrl2 = "rtsp://admin:admin@192.168.1.216/profile?token=media_profile1";//索尼
 
     //CMyServerMediaSession* sms = CMyServerMediaSession::createNew(*env, rtspServer, sStreamUrl.c_str(), "test.264", "", "",554, 0, -1);
+    //abc.264是服务器的文件，访问时用：rtsp://proxy_ip/abc.264,如果该位置参数为空字符串，则用rtsp://proxy_ip
     CMyServerMediaSession* sms2 = CMyServerMediaSession::createNew(*env, rtspServer, sStreamUrl2.c_str(), "abc.264", "", "", 554, 3, -1);
 
     //rtspServer->addServerMediaSession(sms);
