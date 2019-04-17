@@ -56,7 +56,7 @@ UsageEnvironment& operator<<(UsageEnvironment& env, const RTSPClient& rtspClient
 UsageEnvironment& operator<<(UsageEnvironment& env, const MediaSubsession& subsession) {
   return env << subsession.mediumName() << "/" << subsession.codecName();
 }
-
+Authenticator *ourAuthenticator = NULL;//鉴权
 void usage(UsageEnvironment& env, char const* progName) {
   env << "Usage: " << progName << " <rtsp-url-1> ... <rtsp-url-N>\n";
   env << "\t(where each <rtsp-url-i> is a \"rtsp://\" URL)\n";
@@ -69,9 +69,10 @@ static  void ThreadFun(void * pUser)
     // Begin by setting up our usage environment:
     TaskScheduler* scheduler = BasicTaskScheduler::createNew();
     UsageEnvironment* env = BasicUsageEnvironment::createNew(*scheduler);
-
-
-    openURL(*env, "", "rtsp://192.168.1.96:8554/abc.264");
+	
+    ourAuthenticator = new Authenticator("admin", "Password01!");//鉴权，用户名和密码
+    openURL(*env, "", "rtsp://192.168.90.241");
+    //openURL(*env, "", "rtsp://192.168.1.96:8554/abc.264");
 
     // All subsequent activity takes place within the event loop:
     env->taskScheduler().doEventLoop(&eventLoopWatchVariable);
@@ -184,12 +185,13 @@ void openURL(UsageEnvironment& env, char const* progName, char const* rtspURL)
     return;
   }
 
-  ++rtspClientCount;
+   ++rtspClientCount;
 
   // Next, send a RTSP "DESCRIBE" command, to get a SDP description for the stream.
   // Note that this command - like all RTSP commands - is sent asynchronously; we do not block, waiting for a response.
   // Instead, the following function call returns immediately, and we handle the RTSP response later, from within the event loop:
-  rtspClient->sendDescribeCommand(continueAfterDESCRIBE); 
+  //rtspClient->sendDescribeCommand(continueAfterDESCRIBE); 
+    rtspClient->sendDescribeCommand(continueAfterDESCRIBE, ourAuthenticator);//鉴权
 }
 
 
